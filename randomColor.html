@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<style>
+			* {
+				font-family: monospace;
+				color: rgba(0,0,0,0.7);
+			}
+			body {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				height: 98vh;
+			}
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			table, tr, td {
+				border: 2px solid white;
+			}
+			.color td {
+				width: 15rem;
+				height: 15rem;
+				transition: .9s;  
+				text-align: center;
+			}
+			.color td button {
+				display: none;
+			}
+			.color td:hover button {
+				display: initial;
+			}
+			.color td:hover {
+				transition: .2s;
+				box-shadow: 0px 3px 5px rgba(0,0,0,0.3);
+				cursor: pointer;
+			}
+			.loading td {
+				width: 3px;
+				height: 3px;
+				transition: .4s;  
+			}
+			.loading {
+				margin-left: 1rem
+			}
+			button {
+			    border: none;
+			    height: 2.5rem;
+			    font-size: 16px;
+			    width: 7rem;
+			    border-radius: 5%;
+				cursor: pointer;		
+				transition: .2s;  
+			}
+			button:hover {
+				box-shadow: 0px 1px 5px rgba(0,0,0,0.3);
+			}
+			button:focus, button:active {
+				outline: none;
+			}
+			.generate-button {
+				margin-top: 1.5rem;
+				width: 15rem;
+			}
+		</style>
+	    <title>RandomColor</title>
+	</head>
+
+	<body>
+		<div>
+			<header>
+				<h1>RandomColor</h1>
+				<table class="loading">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>	
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>	
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</header>
+			<div>
+				<table class="color">
+					<tr>
+						<td><button>Copier</button></td>
+						<td><button>Copier</button></td>
+						<td><button>Copier</button></td>
+					</tr>	
+					<tr>
+						<td><button>Copier</button></td>
+						<td><button>Copier</button></td>
+						<td><button>Copier</button></td>
+					</tr>	
+					<tr>
+						<td><button>Copier</button></td>
+						<td><button>Copier</button></td>
+						<td><button>Copier</button></td>
+					</tr>
+				</table>
+				<button class="generate-button" onclick="generate()">Générer</button>
+			</div>
+		</div>
+	</body>
+
+	<script>
+
+		var getAllColorTd = document.querySelectorAll('.color td')
+		var getAllLoadingTd = document.querySelectorAll('.loading td')
+
+		function generate() {
+
+			for (let td of getAllColorTd) {
+				let clr1 = Math.floor(Math.random() * 255)
+				let clr2 = Math.floor(Math.random() * 255)
+				let clr3 = Math.floor(Math.random() * 255)
+				let opacity = Math.floor(Math.random() * 9)
+
+				let color = 'rgba(' + clr1 + ',' + clr2 + ',' + clr3 + ',0.' + opacity + ')'
+				td.style.background = color
+				td.setAttribute("name", color)
+			}
+		}
+
+		function Loading() {
+			for (let td of getAllLoadingTd) {
+				let clr1 = Math.floor(Math.random() * 255)
+				let clr2 = Math.floor(Math.random() * 255)
+				let clr3 = Math.floor(Math.random() * 255)
+				let opacity = Math.floor(Math.random() * 9)
+
+				let color = 'rgba(' + clr1 + ',' + clr2 + ',' + clr3 + ',0.' + opacity + ')'
+				td.style.background = color
+			}
+		}
+
+		function copy() {
+			navigator.clipboard.writeText(this.getAttribute("name"))
+			this.firstElementChild.textContent = "Copié"
+			this.firstElementChild.style.background = this.getAttribute("name");
+			this.firstElementChild.style.color = "white";
+			this.firstElementChild.style.boxShadow = "0px 3px 5px rgba(0,0,0,0.3)";
+
+		 	setTimeout(() => {
+				this.firstElementChild.textContent = "Copier"
+				this.firstElementChild.style.background = "#EFEFEF"
+				this.firstElementChild.style.color = "initial"
+				this.firstElementChild.style.boxShadow = "initial";
+	 		}, 1200)
+		}
+
+		for (let td of getAllColorTd) {
+			td.addEventListener("click", copy);
+		}
+
+		setInterval(() => {
+			Loading()
+	  	}, 200);
+
+		generate()
+
+	</script>
+</html>
